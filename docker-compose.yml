@@ -1,0 +1,17 @@
+version: "3"
+services:
+  pytest:
+    image: amazon/aws-glue-libs:glue_libs_3.0.0_image_01
+    ports:
+      - "4040:4040"
+      - "18080:18080"
+    environment:
+      - AWS_PROFILE=${PROFILE_NAME:-dataeng-test}
+      - DISABLE_SSL=true
+      - PYTHONPATH=src
+    volumes:
+      - ~/.aws:/home/glue_user/.aws
+      - $WORKSPACE_LOCATION:/home/glue_user/workspace/
+    command: |
+      -c "pytest -v"
+
